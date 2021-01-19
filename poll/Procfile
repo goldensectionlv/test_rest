@@ -1,1 +1,1 @@
-web: gunicorn mozingaweb2.wsgi
+web: gunicorn poll.wsgi
