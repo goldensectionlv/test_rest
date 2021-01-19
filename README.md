@@ -17,4 +17,25 @@
 # Инструкция
 Перейдите на сайт приложения https://djang123.herokuapp.com/
 
+# Документация по api
+
+1. Создание опроса через метод 'POST'
+
+https://djang123.herokuapp.com/api/create_poll
+
+По данной ссылке передается Json-объект в формате:
+
+    {
+    "poll": {
+        "name": "Тестовый опрос 1",
+        "date_starts": "2021-01-21",
+        "date_ends": "2021-01-22",
+        "description": "тут описание"
+    },
+    "questions": {
+        "question_text": "Тестовый вопрос",
+        "question_type": "TEXT_ANSWER"
+    }
+    }
+
 
