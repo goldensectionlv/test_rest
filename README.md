@@ -44,7 +44,7 @@ https://djang123.herokuapp.com/api/create_poll
 Как выглядит в админке: https://ibb.co/F73MXBW
 
     
-2. Добавление вопроса к объекту опроса. 'POST'
+### 2. Добавление вопроса к объекту опроса. 'POST'
 
 https://djang123.herokuapp.com/api/add_question
 
@@ -56,7 +56,7 @@ https://djang123.herokuapp.com/api/add_question
     "question_type": "TEXT_ANSWER"
     }
 
-3. Изменение вопроса. 'POST'
+### 3. Изменение вопроса. 'POST'
 
 https://djang123.herokuapp.com/api/update_question
 
@@ -67,7 +67,7 @@ https://djang123.herokuapp.com/api/update_question
     "question_type": "TEXT_ANSWER"
     }
     
- 4. Удаление одного вопроса. 'POST'
+ ### 4. Удаление одного вопроса. 'POST'
  
  https://djang123.herokuapp.com/api/delete_question
  
@@ -76,7 +76,7 @@ https://djang123.herokuapp.com/api/update_question
     "questions": "Тестовый вопрос"
     }
  
- 5. Удаление всех вопросов у конкретного опроса 'POST'
+ ### 5. Удаление всех вопросов у конкретного опроса 'POST'
  
  https://djang123.herokuapp.com/api/delete_all_questions
  
@@ -85,7 +85,7 @@ https://djang123.herokuapp.com/api/update_question
     "questions": "Тестовый вопрос"
     }
     
-6. Оставить ответ на вопрос (текстовый). 'POST'
+### 6. Оставить ответ на вопрос (текстовый). 'POST'
 
 https://djang123.herokuapp.com/api/add_answer
 
@@ -98,7 +98,7 @@ https://djang123.herokuapp.com/api/add_answer
     }
 user_id - передается произвольный. После запроса, если пользователя нет в базе данных, то он создается с этим айди. Если есть, то ответ привязывается к пользователю.
 
-7. Выдача всех опросов. 'GET'
+### 7. Выдача всех опросов. 'GET'
 
 https://djang123.herokuapp.com/api/get_all_polls
 
@@ -128,7 +128,7 @@ https://djang123.herokuapp.com/api/get_all_polls
     }
     ]
 
-8. Персональная выдача опросов и ответов пользователя, который запрашивает. 
+### 8. Персональная выдача опросов и ответов пользователя, который запрашивает. 
 
 https://djang123.herokuapp.com/api/get_user_polls/<int:user_id>
 
