@@ -37,8 +37,7 @@ https://djang123.herokuapp.com/api/create_poll
         "question_type": "TEXT_ANSWER"
     }
     }
-
-![alt text](https://ibb.co/F73MXBW)
+Как выглядит в админке: https://ibb.co/F73MXBW
     
 2. 
 
