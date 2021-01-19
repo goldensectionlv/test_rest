@@ -19,7 +19,7 @@
 
 # Документация по api
 
-1. Создание опроса через метод 'POST'
+1. Создание опроса. 'POST'
 
 https://djang123.herokuapp.com/api/create_poll
 
@@ -38,7 +38,98 @@ https://djang123.herokuapp.com/api/create_poll
     }
     }
 Как выглядит в админке: https://ibb.co/F73MXBW
+
     
-2. 
+2. Добавление вопроса к объекту опроса. 'POST'
+
+https://djang123.herokuapp.com/api/add_question
+
+По данной ссылке передается Json-объект в формате (указан id первого опроса в админке с именем 'Тестовый опрос 1'):
+
+    {
+    "poll_id": 5,
+    "questions": "Добавленный вопрос",
+    "question_type": "TEXT_ANSWER"
+    }
+
+3. Изменение вопроса. 'POST'
+
+https://djang123.herokuapp.com/api/update_question
+
+    {
+    "poll_id": 5,
+    "question_old": "Добавленный вопрос",
+    "question_new": "Добавленный вопрос новый",
+    "question_type": "TEXT_ANSWER"
+    }
+    
+ 4. Удаление одного вопроса. 'POST'
+ 
+ https://djang123.herokuapp.com/api/delete_question
+ 
+    {
+    "poll_id": 4,
+    "questions": "Тестовый вопрос"
+    }
+ 
+ 5. Удаление всех вопросов у конкретного опроса 'POST'
+ 
+ https://djang123.herokuapp.com/api/delete_all_questions
+ 
+    for_update_question2222 = {
+    "poll_id": 2,
+    "questions": "Тестовый вопрос"
+    }
+    
+6. Оставить ответ на вопрос (текстовый). 'POST'
+
+https://djang123.herokuapp.com/api/add_answer
+
+    for_add_answer = {
+    "poll_id": 5,
+    "question": "Тестовый вопрос",
+    "answer": "Ответ",
+    "question_type": "TEXT_ANSWER",
+    "user_id": "1234"
+    }
+user_id - передается произвольный. После запроса, если пользователя нет в базе данных, то он создается с этим айди. Если есть, то ответ привязывается к пользователю.
+
+7. Выдача всех опросов. 'GET'
+
+https://djang123.herokuapp.com/api/get_all_polls
+
+Ответ выглядит так:
+    
+    [
+    {
+        "id": 4,
+        "name": "Тестовый опрос 2",
+        "date_starts": "2021-01-21",
+        "date_ends": "2021-01-22",
+        "description": "тут описание"
+    },
+    {
+        "id": 6,
+        "name": "Тестовый опрос 5",
+        "date_starts": "2021-01-21",
+        "date_ends": "2021-01-22",
+        "description": "тут описание"
+    },
+    {
+        "id": 5,
+        "name": "Тестовый опрос 1",
+        "date_starts": "2021-01-21",
+        "date_ends": "2021-01-22",
+        "description": "тут описание"
+    }
+    ]
+
+8. Персональная выдача опросов и ответов пользователя, который запрашивает. 
+
+https://djang123.herokuapp.com/api/get_user_polls/<int:user_id>
+
+Пример:
+https://djang123.herokuapp.com/api/get_user_polls/123
 
 
+# К сожалению, это все, что успел. 
