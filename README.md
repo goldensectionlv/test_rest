@@ -17,6 +17,10 @@
 # Инструкция
 Перейдите на сайт приложения https://djang123.herokuapp.com/
 
+Админка: https://djang123.herokuapp.com/admin
+
+Логин и пароль: admin
+
 # Документация по api
 
 1. Создание опроса. 'POST'
