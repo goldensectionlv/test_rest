@@ -104,18 +104,18 @@ def update_question(request):
 
 
 # Удаление конкретного вопроса
-# @api_view(['POST'])
-# def delete_question(request):
-#     poll_id = request.data['poll_id']
-#     question = request.data['questions']
-#
-#     if Question.objects.filter(poll_id=poll_id, question_text=question).exists():
-#         Question.objects.get(poll_id=poll_id, question_text=question).delete()
-#         print('deleted')
-#     else:
-#         print('does not exist')
-#
-#     return Response('ok')
+@api_view(['POST'])
+def delete_question(request):
+    poll_id = request.data['poll_id']
+    question = request.data['questions']
+
+    if Question.objects.filter(poll_id=poll_id, question_text=question).exists():
+        Question.objects.get(poll_id=poll_id, question_text=question).delete()
+        print('deleted')
+    else:
+        print('does not exist')
+
+    return Response('ok')
 
 
 # Удаление всех вопросов
