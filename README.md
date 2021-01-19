@@ -23,7 +23,7 @@
 
 # Документация по api
 
-## 1. Создание опроса. 'POST'
+### 1. Создание опроса. 'POST'
 
 https://djang123.herokuapp.com/api/create_poll
 
