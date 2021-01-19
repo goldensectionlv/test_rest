@@ -38,4 +38,8 @@ https://djang123.herokuapp.com/api/create_poll
     }
     }
 
+![alt text](https://ibb.co/F73MXBW)
+    
+2. 
+
 
