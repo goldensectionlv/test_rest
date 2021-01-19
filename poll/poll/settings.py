@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -79,10 +80,10 @@ WSGI_APPLICATION = 'poll.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'polls_db',
-        'USER': 'admin',
-        'PASSWORD': '',
-        'HOST': 'localhost',
+        'NAME': 'd998mj75lg4pcq',
+        'USER': 'mjgitdllwwnqjl',
+        'PASSWORD': '2238ba4121c4aa9d5f5cca8683543bcd499b821b5730230d706218e3d37dd5a3',
+        'HOST': 'ec2-99-81-238-134.eu-west-1.compute.amazonaws.com',
         'PORT': '5432'
     }
 }
@@ -125,3 +126,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+django_heroku.settings(locals())
