@@ -21,11 +21,11 @@ def get_user_id_or_create(user_id):
     return user_data
 
 
-poll = {
-    "poll": {"name": "poll", "date_starts": "2021-01-21", "date_ends": "2021-01-22",
-             "description": "description of poll"},
-    "questions": {"question_text": "question_text", "question_type": "TEXT_ANSWER"}
-}
+# poll = {
+#     "poll": {"name": "poll", "date_starts": "2021-01-21", "date_ends": "2021-01-22",
+#              "description": "description of poll"},
+#     "questions": {"question_text": "question_text", "question_type": "TEXT_ANSWER"}
+# }
 
 '''CRUD'''
 
