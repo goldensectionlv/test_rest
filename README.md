@@ -80,7 +80,7 @@ https://djang123.herokuapp.com/api/update_question
  
  https://djang123.herokuapp.com/api/delete_all_questions
  
-    for_update_question2222 = {
+    {
     "poll_id": 2,
     "questions": "Тестовый вопрос"
     }
@@ -89,7 +89,7 @@ https://djang123.herokuapp.com/api/update_question
 
 https://djang123.herokuapp.com/api/add_answer
 
-    for_add_answer = {
+    {
     "poll_id": 5,
     "question": "Тестовый вопрос",
     "answer": "Ответ",
