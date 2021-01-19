@@ -1,0 +1,1 @@
+web: gunicorn mozingaweb2.wsgi
