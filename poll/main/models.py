@@ -44,8 +44,6 @@ class Answer(models.Model):
     poll = models.ForeignKey(Poll, related_name='answer_poll_rel', on_delete=models.CASCADE, null=True)
     answer_with_text = models.TextField(max_length=1000)
 
-    # choice_answer = models.
-
     def __str__(self):
         return str(self.question) + ' - ' + str(self.answer_with_text)
 

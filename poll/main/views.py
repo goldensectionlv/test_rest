@@ -7,10 +7,6 @@ from .serializers import *
 from .models import *
 
 
-# {"name":"poll","date_starts":"2021-01-21","date_ends":"2021-01-22","description":"description of poll"}
-
-# {"poll": {"name": "poll", "date_starts": "2021-01-21", "date_ends": "2021-01-22", "description": "description of poll"}}
-
 # упрощенная версия авторизации
 def get_user_id_or_create(user_id):
     try:
@@ -20,12 +16,6 @@ def get_user_id_or_create(user_id):
         user_data = UserPoll.objects.get(id=user_id)
     return user_data
 
-
-# poll = {
-#     "poll": {"name": "poll", "date_starts": "2021-01-21", "date_ends": "2021-01-22",
-#              "description": "description of poll"},
-#     "questions": {"question_text": "question_text", "question_type": "TEXT_ANSWER"}
-# }
 
 '''CRUD'''
 
@@ -55,13 +45,6 @@ def create_poll(request):
     return Response(poll_serializer.data)
 
 
-poll_questions11 = {
-    "poll_id": 85,
-    "questions": "question",
-    "question_type": "TEXT_ANSWER"
-}
-
-
 # Добавление вопроса
 @api_view(['POST'])
 def add_question(request):
@@ -75,14 +58,6 @@ def add_question(request):
         print('question already exists')
 
     return Response('ok')
-
-
-for_update_question = {
-    "poll_id": 85,
-    "question_old": "question",
-    "question_new": "question111",
-    "question_type": "TEXT_ANSWER"
-}
 
 
 #  Изменение данных вопроса
@@ -104,6 +79,7 @@ def update_question(request):
 
 
 # Удаление конкретного вопроса
+
 @api_view(['POST'])
 def delete_question(request):
     poll_id = request.data['poll_id']
@@ -119,6 +95,7 @@ def delete_question(request):
 
 
 # Удаление всех вопросов
+
 @api_view(['POST'])
 def delete_all_questions(request):
     poll_id = request.data['poll_id']
@@ -137,14 +114,6 @@ def delete_all_questions(request):
 '''CRUD END'''
 
 '''USER FUNCTIONAL'''
-
-for_add_answer = {
-    "poll_id": 87,
-    "question": "one",
-    "answer": "жил был хуй",
-    "question_type": "TEXT_ANSWER",
-    "user_id": "1234"
-}
 
 
 @api_view(['POST'])
@@ -176,11 +145,6 @@ def get_all_polls(request):
         serializer = AllPollsSerializer(polls)
 
     return Response(serializer.data)
-
-
-for_get_user_polls = {
-    "user_id": "1234"
-}
 
 
 @api_view(['GET'])
