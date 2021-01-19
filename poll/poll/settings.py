@@ -80,10 +80,10 @@ WSGI_APPLICATION = 'poll.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dctuqnr6lkn7fo',
-        'USER': 'uegjicwuvcyuud',
-        'PASSWORD': '1aad5039b78bb4daa5fd7cbf2cce865377cb38de2617bddaa21ad7d768f1c370',
-        'HOST': 'ec2-54-78-127-245.eu-west-1.compute.amazonaws.com',
+        'NAME': 'dcju4rkrt2s9gi',
+        'USER': 'tvrxhuijabocln',
+        'PASSWORD': '5df477f0cbaa4fdac9b22ddadc200aae595ca1061658213544b68ee8bf66de6a',
+        'HOST': 'ec2-3-230-247-88.compute-1.amazonaws.com',
         'PORT': '5432'
     }
 }
