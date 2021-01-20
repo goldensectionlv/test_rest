@@ -27,9 +27,9 @@
 
 ##### Метод: POST
 
-URL: https://djang123.herokuapp.com/api/create_poll
+##### URL: https://djang123.herokuapp.com/api/create_poll
 
-Права: доступно только при авторизации под админом через админку
+##### Права: доступно только при авторизации под админом через админку
 
 Пока что поддерживается добавление только одного вопроса при создании опроса. Для добавления остальных, следует воспользоваться п.2.
 
@@ -53,11 +53,11 @@ URL: https://djang123.herokuapp.com/api/create_poll
     
 ### 2. Добавление вопроса к объекту опроса. 'POST'
 
-Метод: POST
+##### Метод: POST
 
-URL: https://djang123.herokuapp.com/api/add_question
+##### URL: https://djang123.herokuapp.com/api/add_question
 
-Права: доступно только при авторизации под админом через админку
+##### Права: доступно только при авторизации под админом через админку
 
 Существует три фиксированных значения для ключа "question_type". Можно выбрать один из них: 
 
@@ -76,11 +76,11 @@ URL: https://djang123.herokuapp.com/api/add_question
 
 ### 3. Изменение вопроса. 'POST'
 
-Метод: POST
+##### Метод: POST
 
-URL: https://djang123.herokuapp.com/api/update_question
+##### URL: https://djang123.herokuapp.com/api/update_question
 
-Права: доступно только при авторизации под админом через админку
+##### Права: доступно только при авторизации под админом через админку
 
 Пример передаваемых данных:
 
@@ -111,11 +111,11 @@ URL: https://djang123.herokuapp.com/api/update_question
     
 ### 6. Оставить ответ на вопрос (текстовый). 'POST'
 
-Метод: POST
+##### Метод: POST
 
-URL: https://djang123.herokuapp.com/api/add_answer
+##### URL: https://djang123.herokuapp.com/api/add_answer
 
-Права: доступно всем
+##### Права: доступно всем
 
 Анонимное использование: проставьте значение в ключе "user_id": 0
 Создание пользователя в системе: проставьте произвольный числовой id (integer). Пример: "user_id": 666
@@ -165,11 +165,11 @@ URL: https://djang123.herokuapp.com/api/add_answer
 
 ### 7. Выдача всех опросов. 'GET'
 
-Метод: GET
+##### Метод: GET
 
-URL: https://djang123.herokuapp.com/api/get_all_polls
+##### URL: https://djang123.herokuapp.com/api/get_all_polls
 
-Права: доступно всем
+##### Права: доступно всем
 
 
 Ответ выглядит так:
@@ -214,11 +214,11 @@ URL: https://djang123.herokuapp.com/api/get_all_polls
 ### 8. Запрос конкретного опроса по id.
 
 
-Метод: GET
+##### Метод: GET
 
-URL: https://djang123.herokuapp.com/api/get_poll/<int:poll_id>
+##### URL: https://djang123.herokuapp.com/api/get_poll/<int:poll_id>
 
-Права: доступно всем
+##### Права: доступно всем
 
 Пример ссылки: https://djang123.herokuapp.com/api/get_poll/5
 
@@ -243,11 +243,11 @@ URL: https://djang123.herokuapp.com/api/get_poll/<int:poll_id>
     
 ### 9. Запрос конкретного вопроса по его id.
 
-Метод: GET
+##### Метод: GET
 
-URL: https://djang123.herokuapp.com/api/get_question/<int:question_id>
+##### URL: https://djang123.herokuapp.com/api/get_question/<int:question_id>
 
-Права: доступно всем
+##### Права: доступно всем
 
 Пример: https://djang123.herokuapp.com/api/get_question/65
 
@@ -263,9 +263,9 @@ URL: https://djang123.herokuapp.com/api/get_question/<int:question_id>
 
 ### 10. Персональная выдача опросов и ответов пользователя, который запрашивает. 
 
-Метод: GET
+##### Метод: GET
 
-URL: https://djang123.herokuapp.com/api/get_user_polls/<int:user_id>
+##### URL: https://djang123.herokuapp.com/api/get_user_polls/<int:user_id>
 
 Права: доступно всем
 
