@@ -54,3 +54,8 @@ class AnswerWithManyChoicesSerializer(serializers.ModelSerializer):
         model = AnswerWithManyChoices
         fields = '__all__'
 
+
+class QuestionSerializerNormal(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = '__all__'

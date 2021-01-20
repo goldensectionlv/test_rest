@@ -292,21 +292,58 @@ def add_answer(request):
 #     "vote_three_desc": "desc3"
 # }
 
+
 @api_view(['GET'])
 def get_question(request, question_id):
-    pass
+    result = ''
+    try:
+        question = Question.objects.get(id=question_id)
+        print(question)
+        serializer = QuestionSerializerNormal(question, many=False)
+        print(serializer)
+        result = serializer.data
+    except:
+        result = 'Похоже, что вопрос не найден'
+
+    return Response(result)
+
+
+@api_view(['GET'])
+def get_poll(request, poll_id):
+    result = ''
+    try:
+        poll = Poll.objects.get(id=poll_id)
+        poll_serializer = PollSerializer(poll, many=False)
+        questions = Question.objects.filter(poll_id=poll_id)
+        questions_serializer = QuestionSerializerNormal(questions, many=True)
+        result = {
+            'poll': poll_serializer.data,
+            'questions': questions_serializer.data
+        }
+
+    except:
+        result = 'Похоже, что опрос не найден'
+
+    return Response(result)
 
 
 @api_view(['GET'])
 def get_all_polls(request):
     polls = Poll.objects.all()
 
-    if len(polls) > 1:
-        serializer = AllPollsSerializer(polls, many=True)
-    else:
-        serializer = AllPollsSerializer(polls)
+    final_dict = []
+    for i in range(len(polls)):
+        polls_serializer = AllPollsSerializer(polls[i], many=False)
+        questions_data = Question.objects.filter(poll_id=polls[i].id)
+        print(polls[i].id)
+        questions_serializer = QuestionSerializerNormal(questions_data, many=True)
+        temp = {
+            'poll': polls_serializer.data,
+            'questions': questions_serializer.data
+        }
+        final_dict.append(temp)
 
-    return Response(serializer.data)
+    return Response(final_dict)
 
 
 @api_view(['GET'])
