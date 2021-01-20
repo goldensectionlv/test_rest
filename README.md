@@ -15,11 +15,13 @@
 Использовать следующие технологии: Django 2.2.10, Django REST framework.
 
 # Инструкция
-Перейдите на сайт приложения https://djang123.herokuapp.com/
+### Перейдите на сайт приложения https://djang123.herokuapp.com/
 
-Админка: https://djang123.herokuapp.com/admin
+### дминка: https://djang123.herokuapp.com/admin
 
-Логин и пароль: admin
+## Логин и пароль: admin
+
+Все необходимые модели выведены и связаны.
 
 # Документация по api
 
