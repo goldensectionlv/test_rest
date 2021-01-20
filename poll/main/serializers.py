@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Poll, Question, Answer
+from .models import Poll, Question, Answer, AnswerWithOneChoice, AnswerWithManyChoices
 
 
 class PollSerializer(serializers.ModelSerializer):
@@ -41,3 +41,16 @@ class AllAnswersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Answer
         fields = '__all__'
+
+
+class AnswerWithOneChoiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AnswerWithOneChoice
+        fields = '__all__'
+
+
+class AnswerWithManyChoicesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AnswerWithManyChoices
+        fields = '__all__'
+

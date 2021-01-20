@@ -57,3 +57,18 @@ class AnswerWithOneChoice(models.Model):
 
     def __str__(self):
         return str(self.question)
+
+
+class AnswerWithManyChoices(models.Model):
+    question = models.ForeignKey(Question, related_name='many_option_answer', on_delete=models.CASCADE)
+    user_poll = models.ForeignKey(UserPoll, related_name='user_poll_many_choice_rel', on_delete=models.CASCADE, null=True)
+    poll = models.ForeignKey(Poll, related_name='many_choice_answer_poll_rel', on_delete=models.CASCADE, null=True)
+    vote_one = models.BooleanField(null=True)
+    vote_two = models.BooleanField(null=True)
+    vote_three = models.BooleanField(null=True)
+    vote_one_desc = models.CharField(max_length=255)
+    vote_two_desc = models.CharField(max_length=255)
+    vote_three_desc = models.CharField(max_length=255)
+
+    def __str__(self):
+        return str(self.question)

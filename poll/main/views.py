@@ -167,8 +167,28 @@ def delete_all_questions(request):
 #     "poll_id": 125,
 #     "question": "вопрос",
 #     "answer": true,
-#     "question_type": "MANY_OPTIONS_ANSWER",
+#     "question_type": "TEXT_ANSWER",
 #     "user_id": 123
+# }
+
+# quest = {
+#     "poll_id": 125,
+#     "question": "вопрос",
+#     "answer": true,
+#     "question_type": "ONE_OPTION_ANSWER",
+#     "user_id": 123
+# }
+
+# quest = {
+#     "poll_id": 125,
+#     "question": "вопрос",
+#     "question_type": "MANY_OPTIONS_ANSWER",
+#     "user_id": 123,
+#     "vote_one": true,
+#     "vote_three": true,
+#     "vote_one_desc": "desc1",
+#     "vote_two_desc": "desc2",
+#     "vote_three_desc": "desc3"
 # }
 
 
@@ -176,7 +196,6 @@ def delete_all_questions(request):
 def add_answer(request):
     poll_id = request.data['poll_id']
     question = request.data['question']
-    answer = request.data['answer']
     question_type = request.data['question_type']
     user_id = request.data['user_id']
     response = ''
@@ -193,12 +212,14 @@ def add_answer(request):
 
         #  Текстовый ответ
         if question_type == 'TEXT_ANSWER':
+            answer = request.data['answer']
             Answer.objects.create(question=question_object, answer_with_text=answer, user_poll=user_data,
                                   poll_id=poll_id)
             response = f'Ответ к вопросу "{question_object.question_text}" добавлен от пользователя c id {user_data.id}'
 
         # Ответ с одной опцией True/False
         elif question_type == 'ONE_OPTION_ANSWER':
+            answer = request.data['answer']
             #  Да, это тупо :D
             check = AnswerWithOneChoice.objects.filter(poll_id=poll_id)
             check_exists = False
@@ -223,15 +244,57 @@ def add_answer(request):
                 choice_answer.save()
                 response = 'Ответ был заменен на противоположный'
 
+        elif question_type == 'MANY_OPTIONS_ANSWER':
+            vote_one = request.data['vote_one']
+            vote_two = request.data['vote_one']
+            vote_three = request.data['vote_one']
+            vote_one_desc = request.data['vote_one_desc']
+            vote_two_desc = request.data['vote_two_desc']
+            vote_three_desc = request.data['vote_three_desc']
+
+            print(vote_one, vote_two, vote_three, vote_one_desc, vote_two_desc, vote_three_desc)
+
+            AnswerWithManyChoices.objects.create(
+                poll_id=poll_id,
+                question=question_object,
+                user_poll=user_data,
+                vote_one=vote_one,
+                vote_two=vote_two,
+                vote_three=vote_three,
+                vote_one_desc=vote_one_desc,
+                vote_two_desc=vote_two_desc,
+                vote_three_desc=vote_three_desc
+
+            )
+
         else:
             response = 'Вероятна ошибка в типе вопроса, сверьтесь с документацией (п.2)'
 
+    # для анонимных пользователей
     else:
+        answer = request.data['answer']
         Answer.objects.create(question=question_object, answer_with_text=answer,
                               poll_id=poll_id)
         response = f'Анонимный ответ к вопросу "{question_object.question_text}" добавлен'
 
     return Response(response)
+
+
+# quest = {
+#     "poll_id": 125,
+#     "question": "вопрос",
+#     "question_type": "MANY_OPTIONS_ANSWER",
+#     "user_id": 123,
+#     "vote_one": true,
+#     "vote_three": true,
+#     "vote_one_desc": "desc1",
+#     "vote_two_desc": "desc2",
+#     "vote_three_desc": "desc3"
+# }
+
+@api_view(['GET'])
+def get_question(request, question_id):
+    pass
 
 
 @api_view(['GET'])
@@ -252,6 +315,10 @@ def get_user_polls(request, user_id):
     if UserPoll.objects.filter(id=user_id).exists():
         user_answers = Answer.objects.filter(user_poll=user_id)
 
+        one_choice_answers = AnswerWithOneChoice.objects.filter(user_poll=user_id)
+        many_choice_answers = AnswerWithManyChoices.objects.filter(user_poll=user_id)
+        print(len(one_choice_answers), len(many_choice_answers))
+
         polls_for_final = []
         for i in range(len(user_answers)):
             if user_answers[i].poll not in polls_for_final:
@@ -260,16 +327,31 @@ def get_user_polls(request, user_id):
         for i in range(len(polls_for_final)):
             polls = []
             answers = []
+            answers_one_choice = []
+            answers_many_choice = []
             for z in range(len(user_answers)):
                 if user_answers[z].poll == polls_for_final[i]:
                     answers.append(user_answers[z])
+
+            for z in range(len(one_choice_answers)):
+                if one_choice_answers[z].poll == polls_for_final[i]:
+                    answers_one_choice.append(one_choice_answers[z])
+
+            for z in range(len(many_choice_answers)):
+                if many_choice_answers[z].poll == polls_for_final[i]:
+                    answers_many_choice.append(many_choice_answers[z])
+
             polls.append(polls_for_final[i])
 
             polls = AllPollsSerializer(polls, many=True)
             answers = AllAnswersSerializer(answers, many=True)
+            one_choice = AnswerWithOneChoiceSerializer(answers_one_choice, many=True)
+            many_choice = AnswerWithManyChoicesSerializer(answers_many_choice, many=True)
             temp = {
                 'poll': polls.data,
-                'answers': answers.data
+                'answers_with_text': answers.data,
+                'one_choice_answers': one_choice.data,
+                'many_choice_answers': many_choice.data
             }
             final.append(temp)
     else:
