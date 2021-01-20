@@ -77,27 +77,27 @@ WSGI_APPLICATION = 'poll.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'dcju4rkrt2s9gi',
-#         'USER': 'tvrxhuijabocln',
-#         'PASSWORD': '5df477f0cbaa4fdac9b22ddadc200aae595ca1061658213544b68ee8bf66de6a',
-#         'HOST': 'ec2-3-230-247-88.compute-1.amazonaws.com',
-#         'PORT': '5432'
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'polls_db',
-        'USER': 'admin',
-        'PASSWORD': '',
-        'HOST': 'localhost',
+        'NAME': 'dcju4rkrt2s9gi',
+        'USER': 'tvrxhuijabocln',
+        'PASSWORD': '5df477f0cbaa4fdac9b22ddadc200aae595ca1061658213544b68ee8bf66de6a',
+        'HOST': 'ec2-3-230-247-88.compute-1.amazonaws.com',
         'PORT': '5432'
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'polls_db',
+#         'USER': 'admin',
+#         'PASSWORD': '',
+#         'HOST': 'localhost',
+#         'PORT': '5432'
+#     }
+# }
 
 
 # Password validation
