@@ -321,7 +321,7 @@ def add_answer(request):
                 vote_three_desc=vote_three_desc
 
             )
-            response = 'Ответ добавлен'
+            response = 'Анонимный ответ добавлен'
             stat = HTTP_200_OK
 
     return Response(response, status=stat)
