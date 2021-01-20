@@ -107,8 +107,7 @@
  https://djang123.herokuapp.com/api/delete_all_questions
  
     {
-    "poll_id": 2,
-    "questions": "Тестовый вопрос"
+    "poll_id": 2
     }
     
 ### 6. Оставить ответ на вопрос (текстовый). 'POST'
