@@ -107,7 +107,8 @@ def update_question(request):
             question_object.question_text = question_new
             question_object.question_type = question_type
             question_object.save()
-            response = QuestionSerializer(question_object, many=False)
+            serializer = QuestionSerializer(question_object, many=False)
+            response = serializer.data
         else:
             response = 'Вопрос отсутствует в базе данных или неправильный id опроса'
     else:
@@ -170,7 +171,7 @@ def delete_all_questions(request):
 #     "question_type": "TEXT_ANSWER",
 #     "user_id": 123
 # }
-
+#
 # quest = {
 #     "poll_id": 125,
 #     "question": "вопрос",
@@ -278,19 +279,6 @@ def add_answer(request):
         response = f'Анонимный ответ к вопросу "{question_object.question_text}" добавлен'
 
     return Response(response)
-
-
-# quest = {
-#     "poll_id": 125,
-#     "question": "вопрос",
-#     "question_type": "MANY_OPTIONS_ANSWER",
-#     "user_id": 123,
-#     "vote_one": true,
-#     "vote_three": true,
-#     "vote_one_desc": "desc1",
-#     "vote_two_desc": "desc2",
-#     "vote_three_desc": "desc3"
-# }
 
 
 @api_view(['GET'])
