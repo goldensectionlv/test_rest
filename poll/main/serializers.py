@@ -3,6 +3,7 @@ from .models import Poll, Question, Answer, AnswerWithOneChoice, AnswerWithManyC
 
 
 class PollSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Poll
         fields = ['id', 'name', 'date_starts', 'date_ends', 'description']
@@ -12,7 +13,7 @@ class PollSerializer(serializers.ModelSerializer):
             name=self.validated_data['name'],
             date_starts=self.validated_data['date_starts'],
             date_ends=self.validated_data['date_ends'],
-            description=self.validated_data['description']
+            description=self.validated_data['description'],
         )
 
         return poll_to_save
@@ -32,6 +33,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 
 class AllPollsSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Poll
         fields = '__all__'

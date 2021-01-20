@@ -48,6 +48,7 @@ def create_poll(request):
         if poll_serializer.is_valid():
             # сохраняю тут и таким образом для того, чтобы получить автоматически сгенерированный id
             poll_object = Poll.objects.create(**poll_serializer.validated_data)
+            poll_object.owner = request.user.userpoll
             poll_object.save()
             response.append({
                 'poll_creation': True,

@@ -38,7 +38,7 @@ class QuestionInline(admin.TabularInline):
 class PollAdmin(admin.ModelAdmin):
     model = Poll
     inlines = [QuestionInline, AnswerInline, AnswerWithOneChoiceInline, AnswerWithManyChoicesInline]
-    readonly_fields = ('id',)
+    readonly_fields = ('id', 'date_starts')
 
 
 class PollInline(admin.TabularInline):
