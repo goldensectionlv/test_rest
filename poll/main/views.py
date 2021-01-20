@@ -286,9 +286,7 @@ def get_question(request, question_id):
     result = ''
     try:
         question = Question.objects.get(id=question_id)
-        print(question)
         serializer = QuestionSerializerNormal(question, many=False)
-        print(serializer)
         result = serializer.data
     except:
         result = 'Похоже, что вопрос не найден'

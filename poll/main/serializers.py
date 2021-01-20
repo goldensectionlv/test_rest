@@ -38,6 +38,9 @@ class AllPollsSerializer(serializers.ModelSerializer):
 
 
 class AllAnswersSerializer(serializers.ModelSerializer):
+    question = serializers.CharField(source='question.question_text', read_only=True)
+    poll = serializers.CharField(source='poll.name', read_only=True)
+
     class Meta:
         model = Answer
         fields = '__all__'
@@ -56,6 +59,8 @@ class AnswerWithManyChoicesSerializer(serializers.ModelSerializer):
 
 
 class QuestionSerializerNormal(serializers.ModelSerializer):
+    poll = serializers.CharField(source='poll.name', read_only=True)
+
     class Meta:
         model = Question
         fields = '__all__'
