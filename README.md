@@ -226,6 +226,7 @@
 Пример ссылки: https://djang123.herokuapp.com/api/get_poll/5
 
 Пример ответа: 
+
     {
     "poll": {
         "id": 126,
