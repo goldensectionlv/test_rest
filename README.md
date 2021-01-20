@@ -25,7 +25,7 @@
 
 ### 1. Создание опроса.
 
-Метод: POST
+##### Метод: POST
 
 URL: https://djang123.herokuapp.com/api/create_poll
 
