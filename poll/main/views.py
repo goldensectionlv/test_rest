@@ -83,7 +83,8 @@ def add_question(request):
         is_question_already_exists = Question.objects.filter(poll_id=poll_id, question_text=question).exists()
 
         if is_question_already_exists:
-            return Response(f'Вопрос "{question}" уже существует или неправильный id опроса', status=HTTP_400_BAD_REQUEST)
+            return Response(f'Вопрос "{question}" уже существует или неправильный id опроса',
+                            status=HTTP_400_BAD_REQUEST)
 
         if not is_question_already_exists:
             Question.objects.create(poll_id=poll_id, question_text=question, question_type=question_type)
@@ -289,10 +290,39 @@ def add_answer(request):
 
     # для анонимных пользователей
     else:
-        answer = request.data['answer']
-        Answer.objects.create(question=question_object, answer_with_text=answer,
-                              poll_id=poll_id)
-        response = f'Анонимный ответ к вопросу "{question_object.question_text}" добавлен'
+        print('anon')
+        if question_type == 'TEXT_ANSWER':
+            answer = request.data['answer']
+            Answer.objects.create(question=question_object, answer_with_text=answer, poll_id=poll_id)
+            response = f'Анонимный ответ к вопросу "{question_object.question_text}" добавлен'
+            stat = HTTP_200_OK
+
+        elif question_type == 'ONE_OPTION_ANSWER':
+            answer = request.data['answer']
+            AnswerWithOneChoice.objects.create(question=question_object, answer=answer, poll_id=poll_id)
+            response = f'Анонимный ответ к вопросу "{question_object.question_text}" добавлен'
+            stat = HTTP_200_OK
+
+        elif question_type == 'MANY_OPTIONS_ANSWER':
+            vote_one = request.data['vote_one']
+            vote_two = request.data['vote_two']
+            vote_three = request.data['vote_three']
+            vote_one_desc = request.data['vote_one_desc']
+            vote_two_desc = request.data['vote_two_desc']
+            vote_three_desc = request.data['vote_three_desc']
+            AnswerWithManyChoices.objects.create(
+                poll_id=poll_id,
+                question=question_object,
+                vote_one=vote_one,
+                vote_two=vote_two,
+                vote_three=vote_three,
+                vote_one_desc=vote_one_desc,
+                vote_two_desc=vote_two_desc,
+                vote_three_desc=vote_three_desc
+
+            )
+            response = 'Ответ добавлен'
+            stat = HTTP_200_OK
 
     return Response(response, status=stat)
 
