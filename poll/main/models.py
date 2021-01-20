@@ -48,3 +48,12 @@ class Answer(models.Model):
     def __str__(self):
         return str(self.question) + ' - ' + str(self.answer_with_text)
 
+
+class AnswerWithOneChoice(models.Model):
+    question = models.ForeignKey(Question, related_name='one_option_answer', on_delete=models.CASCADE)
+    user_poll = models.ForeignKey(UserPoll, related_name='user_poll_choice_rel', on_delete=models.CASCADE, null=True)
+    poll = models.ForeignKey(Poll, related_name='choice_answer_poll_rel', on_delete=models.CASCADE, null=True)
+    answer = models.BooleanField(null=True)
+
+    def __str__(self):
+        return str(self.question)

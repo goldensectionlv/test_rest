@@ -10,6 +10,10 @@ class AnswerInline(admin.TabularInline):
     model = Answer
 
 
+class AnswerWithOneChoiceInline(admin.TabularInline):
+    model = AnswerWithOneChoice
+
+
 class UserPollAdmin(admin.ModelAdmin):
     model = UserPoll
     inlines = [AnswerInline, ]
@@ -19,7 +23,7 @@ class UserPollAdmin(admin.ModelAdmin):
 class QuestionAdmin(admin.ModelAdmin):
     model = Question
     list_display = ['poll', 'question_text', 'question_type']
-    inlines = [AnswerInline]
+    inlines = [AnswerInline, AnswerWithOneChoiceInline]
     readonly_fields = ('id',)
 
 
@@ -29,7 +33,7 @@ class QuestionInline(admin.TabularInline):
 
 class PollAdmin(admin.ModelAdmin):
     model = Poll
-    inlines = [QuestionInline, AnswerInline]
+    inlines = [QuestionInline, AnswerInline, AnswerWithOneChoiceInline]
     readonly_fields = ('id',)
 
 

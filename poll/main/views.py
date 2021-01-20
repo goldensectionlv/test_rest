@@ -77,11 +77,15 @@ def add_question(request):
         question = request.data['questions']
         question_type = request.data['question_type']
 
-        if not Question.objects.filter(poll_id=poll_id, question_text=question).exists():
+        is_question_already_exists = Question.objects.filter(poll_id=poll_id, question_text=question).exists()
+
+        if is_question_already_exists:
+            return Response(f'Вопрос "{question}" уже существует или неправильный id опроса')
+
+        if not is_question_already_exists:
             Question.objects.create(poll_id=poll_id, question_text=question, question_type=question_type)
-            response = f'Вопрос "{question}" добавлен к опросу с id {poll_id}'
-        else:
-            response = f'Вопрос "{question}" уже существует или неправильный id опроса'
+            response = f'Вопрос "{question}" ({question_type}) добавлен к опросу с id {poll_id}'
+
     else:
         response = 'Ошибка авторизации. Для публикации вопроса войдите в панель администратора'
     return Response(response)
@@ -159,20 +163,23 @@ def delete_all_questions(request):
 '''USER FUNCTIONAL'''
 
 
-# {
-# "poll_id": 122,
-# "question": "Тестовый вопрос",
-# "answer": "Ответ",
-# "question_type": "TEXT_ANSWER",
-# "user_id": 0
+# quest = {
+#     "poll_id": 125,
+#     "question": "вопрос",
+#     "answer": true,
+#     "question_type": "MANY_OPTIONS_ANSWER",
+#     "user_id": 123
 # }
+
+
 @api_view(['POST'])
 def add_answer(request):
     poll_id = request.data['poll_id']
     question = request.data['question']
     answer = request.data['answer']
-    # question_type = request.data['question_type']
+    question_type = request.data['question_type']
     user_id = request.data['user_id']
+    response = ''
 
     is_question_exist = Question.objects.filter(poll_id=poll_id, question_text=question).exists()
     if is_question_exist:
@@ -183,9 +190,41 @@ def add_answer(request):
     # Если у юзера есть id. 0 - дефолтное значение, говорящее об отсутствии id
     if user_id != 0:
         user_data = get_user_id_or_create(user_id=user_id)
-        Answer.objects.create(question=question_object, answer_with_text=answer, user_poll=user_data,
-                              poll_id=poll_id)
-        response = f'Ответ к вопросу "{question_object.question_text}" добавлен от пользователя c id {user_data.id}'
+
+        #  Текстовый ответ
+        if question_type == 'TEXT_ANSWER':
+            Answer.objects.create(question=question_object, answer_with_text=answer, user_poll=user_data,
+                                  poll_id=poll_id)
+            response = f'Ответ к вопросу "{question_object.question_text}" добавлен от пользователя c id {user_data.id}'
+
+        # Ответ с одной опцией True/False
+        elif question_type == 'ONE_OPTION_ANSWER':
+            #  Да, это тупо :D
+            check = AnswerWithOneChoice.objects.filter(poll_id=poll_id)
+            check_exists = False
+            choice_answer = 0
+
+            for i in range(len(check)):
+                if check[i].user_poll.id == user_data.id:
+                    check_exists = True
+                    choice_answer = check[i]
+                    break
+
+            if not check_exists:
+                AnswerWithOneChoice.objects.create(question=question_object, answer=answer, user_poll=user_data,
+                                                   poll_id=poll_id)
+                response = f'Ответ к вопросу "{question_object.question_text}" добавлен от пользователя c id {user_data.id}'
+
+            else:
+                if choice_answer.answer:
+                    choice_answer.answer = False
+                else:
+                    choice_answer.answer = True
+                choice_answer.save()
+                response = 'Ответ был заменен на противоположный'
+
+        else:
+            response = 'Вероятна ошибка в типе вопроса, сверьтесь с документацией (п.2)'
 
     else:
         Answer.objects.create(question=question_object, answer_with_text=answer,
