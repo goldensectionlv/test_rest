@@ -260,8 +260,8 @@ def add_answer(request):
 
         elif question_type == 'MANY_OPTIONS_ANSWER':
             vote_one = request.data['vote_one']
-            vote_two = request.data['vote_one']
-            vote_three = request.data['vote_one']
+            vote_two = request.data['vote_two']
+            vote_three = request.data['vote_three']
             vote_one_desc = request.data['vote_one_desc']
             vote_two_desc = request.data['vote_two_desc']
             vote_three_desc = request.data['vote_three_desc']
@@ -280,7 +280,7 @@ def add_answer(request):
                 vote_three_desc=vote_three_desc
 
             )
-            response = 'Вопрос добавлен'
+            response = 'Ответ добавлен'
             stat = HTTP_200_OK
 
         else:
