@@ -251,7 +251,7 @@
 
 #### Права: доступно всем
 
-Пример: https://djang123.herokuapp.com/api/get_question/65
+Пример: https://djang123.herokuapp.com/api/get_question/5
 
 Пример ответа:
 
