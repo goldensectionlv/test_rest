@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
+from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_200_OK
 from .serializers import *
 from .models import *
 
@@ -72,6 +73,7 @@ def create_poll(request):
 @api_view(['POST'])
 def add_question(request):
     response = ''
+    stat = []
     if request.user.is_superuser:
         poll_id = request.data['poll_id']
         question = request.data['questions']
@@ -80,21 +82,24 @@ def add_question(request):
         is_question_already_exists = Question.objects.filter(poll_id=poll_id, question_text=question).exists()
 
         if is_question_already_exists:
-            return Response(f'Вопрос "{question}" уже существует или неправильный id опроса')
+            return Response(f'Вопрос "{question}" уже существует или неправильный id опроса', status=HTTP_400_BAD_REQUEST)
 
         if not is_question_already_exists:
             Question.objects.create(poll_id=poll_id, question_text=question, question_type=question_type)
             response = f'Вопрос "{question}" ({question_type}) добавлен к опросу с id {poll_id}'
+            stat = HTTP_200_OK
 
     else:
         response = 'Ошибка авторизации. Для публикации вопроса войдите в панель администратора'
-    return Response(response)
+        stat = HTTP_400_BAD_REQUEST
+    return Response(response, status=stat)
 
 
 #  Изменение данных вопроса
 @api_view(['POST'])
 def update_question(request):
     response = ''
+    stat = []
     if request.user.is_superuser:
         poll_id = request.data['poll_id']
         question_old = request.data['question_old']
@@ -109,12 +114,15 @@ def update_question(request):
             question_object.save()
             serializer = QuestionSerializer(question_object, many=False)
             response = serializer.data
+            stat = HTTP_200_OK
         else:
             response = 'Вопрос отсутствует в базе данных или неправильный id опроса'
+            stat = HTTP_404_NOT_FOUND
     else:
         response = 'Ошибка авторизации. Для публикации вопроса войдите в панель администратора'
+        stat = HTTP_400_BAD_REQUEST
 
-    return Response(response)
+    return Response(response, status=stat)
 
 
 # Удаление конкретного вопроса
@@ -200,6 +208,7 @@ def add_answer(request):
     question_type = request.data['question_type']
     user_id = request.data['user_id']
     response = ''
+    stat = []
 
     is_question_exist = Question.objects.filter(poll_id=poll_id, question_text=question).exists()
     if is_question_exist:
@@ -217,6 +226,7 @@ def add_answer(request):
             Answer.objects.create(question=question_object, answer_with_text=answer, user_poll=user_data,
                                   poll_id=poll_id)
             response = f'Ответ к вопросу "{question_object.question_text}" добавлен от пользователя c id {user_data.id}'
+            stat = HTTP_200_OK
 
         # Ответ с одной опцией True/False
         elif question_type == 'ONE_OPTION_ANSWER':
@@ -236,6 +246,7 @@ def add_answer(request):
                 AnswerWithOneChoice.objects.create(question=question_object, answer=answer, user_poll=user_data,
                                                    poll_id=poll_id)
                 response = f'Ответ к вопросу "{question_object.question_text}" добавлен от пользователя c id {user_data.id}'
+                stat = HTTP_200_OK
 
             else:
                 if choice_answer.answer:
@@ -244,6 +255,7 @@ def add_answer(request):
                     choice_answer.answer = True
                 choice_answer.save()
                 response = 'Ответ был заменен на противоположный'
+                stat = HTTP_200_OK
 
         elif question_type == 'MANY_OPTIONS_ANSWER':
             vote_one = request.data['vote_one']
@@ -267,9 +279,12 @@ def add_answer(request):
                 vote_three_desc=vote_three_desc
 
             )
+            response = 'Вопрос добавлен'
+            stat = HTTP_200_OK
 
         else:
             response = 'Вероятна ошибка в типе вопроса, сверьтесь с документацией (п.2)'
+            stat = HTTP_404_NOT_FOUND
 
     # для анонимных пользователей
     else:
@@ -278,25 +293,29 @@ def add_answer(request):
                               poll_id=poll_id)
         response = f'Анонимный ответ к вопросу "{question_object.question_text}" добавлен'
 
-    return Response(response)
+    return Response(response, status=stat)
 
 
 @api_view(['GET'])
 def get_question(request, question_id):
     result = ''
+    stat = []
     try:
         question = Question.objects.get(id=question_id)
         serializer = QuestionSerializerNormal(question, many=False)
         result = serializer.data
+        stat = HTTP_200_OK
     except:
         result = 'Похоже, что вопрос не найден'
+        stat = HTTP_404_NOT_FOUND
 
-    return Response(result)
+    return Response(result, status=stat)
 
 
 @api_view(['GET'])
 def get_poll(request, poll_id):
     result = ''
+    stat = []
     try:
         poll = Poll.objects.get(id=poll_id)
         poll_serializer = PollSerializer(poll, many=False)
@@ -306,11 +325,13 @@ def get_poll(request, poll_id):
             'poll': poll_serializer.data,
             'questions': questions_serializer.data
         }
+        stat = HTTP_200_OK
 
     except:
         result = 'Похоже, что опрос не найден'
+        stat = HTTP_404_NOT_FOUND
 
-    return Response(result)
+    return Response(result, status=stat)
 
 
 @api_view(['GET'])
@@ -329,12 +350,13 @@ def get_all_polls(request):
         }
         final_dict.append(temp)
 
-    return Response(final_dict)
+    return Response(final_dict, status=HTTP_200_OK)
 
 
 @api_view(['GET'])
 def get_user_polls(request, user_id):
     final = []
+    stat = []
     if UserPoll.objects.filter(id=user_id).exists():
         user_answers = Answer.objects.filter(user_poll=user_id)
 
@@ -377,10 +399,12 @@ def get_user_polls(request, user_id):
                 'many_choice_answers': many_choice.data
             }
             final.append(temp)
+            stat = HTTP_200_OK
     else:
         final = f'Пользователя с id {user_id} не существует'
+        stat = HTTP_404_NOT_FOUND
 
-    return Response(final)
+    return Response(final, status=stat)
 
 
 '''USER FUNCTIONAL'''
