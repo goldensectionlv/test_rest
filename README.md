@@ -129,7 +129,7 @@
 
 При выборе этого варианта данные передаются в следующем формате:
     {
-    "poll_id": 125,
+    "poll_id": 7,
     "question": "вопрос",
     "answer": true,
     "question_type": "TEXT_ANSWER",
@@ -141,8 +141,8 @@
 При выборе этого варианта данные передаются в следующем формате:
 
     {
-    "poll_id": 125,
-    "question": "вопрос",
+    "poll_id": 7,
+    "question": "вопрос тру фолс",
     "answer": true,
     "question_type": "ONE_OPTION_ANSWER",
     "user_id": 123
@@ -150,14 +150,15 @@
 
 #### "MANY_OPTIONS_ANSWER"
 
-При выборе этого варианта данные передаются в следующем формате:
+При выборе этого варианта данные передаются в следующем формате (все з:
 
     {
-    "poll_id": 125,
-    "question": "вопрос",
+    "poll_id": 7,
+    "question": "Тестовый вопрос",
     "question_type": "MANY_OPTIONS_ANSWER",
     "user_id": 123,
     "vote_one": true,
+    "vote_two": null,
     "vote_three": true,
     "vote_one_desc": "description 1",
     "vote_two_desc": "description 2",
