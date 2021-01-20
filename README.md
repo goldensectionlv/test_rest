@@ -17,7 +17,7 @@
 # Инструкция
 ### Перейдите на сайт приложения https://djang123.herokuapp.com/
 
-### дминка: https://djang123.herokuapp.com/admin
+### Админка: https://djang123.herokuapp.com/admin
 
 ## Логин и пароль: admin
 
