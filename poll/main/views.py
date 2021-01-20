@@ -174,35 +174,6 @@ def delete_all_questions(request):
 '''USER FUNCTIONAL'''
 
 
-# quest = {
-#     "poll_id": 125,
-#     "question": "вопрос",
-#     "answer": true,
-#     "question_type": "TEXT_ANSWER",
-#     "user_id": 123
-# }
-#
-# quest = {
-#     "poll_id": 125,
-#     "question": "вопрос",
-#     "answer": true,
-#     "question_type": "ONE_OPTION_ANSWER",
-#     "user_id": 123
-# }
-
-# quest = {
-#     "poll_id": 125,
-#     "question": "вопрос",
-#     "question_type": "MANY_OPTIONS_ANSWER",
-#     "user_id": 123,
-#     "vote_one": true,
-#     "vote_three": true,
-#     "vote_one_desc": "desc1",
-#     "vote_two_desc": "desc2",
-#     "vote_three_desc": "desc3"
-# }
-
-
 @api_view(['POST'])
 def add_answer(request):
     poll_id = request.data['poll_id']
