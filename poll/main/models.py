@@ -13,7 +13,7 @@ class UserPoll(models.Model):
 
 class Poll(models.Model):
     name = models.CharField(max_length=255, null=True)
-    date_starts = models.DateField(null=True)
+    date_starts = models.DateField(null=True, editable=False)
     date_ends = models.DateField(null=True)
     description = models.TextField(max_length=500, null=True)
     owner = models.OneToOneField(UserPoll, null=True, on_delete=models.CASCADE)
