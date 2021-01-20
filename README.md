@@ -23,9 +23,13 @@
 
 # Документация по api
 
-### 1. Создание опроса. 'POST'
+### 1. Создание опроса.
 
-https://djang123.herokuapp.com/api/create_poll
+Метод: POST
+URL: https://djang123.herokuapp.com/api/create_poll
+Права: доступно только при авторизации под админом через админку
+
+Пока что поддерживается добавление только одного вопроса при создании опроса. Для добавления остальных, следует воспользоваться п.2.
 
 По данной ссылке передается Json-объект в формате:
 
@@ -41,14 +45,24 @@ https://djang123.herokuapp.com/api/create_poll
         "question_type": "TEXT_ANSWER"
     }
     }
+    
 Как выглядит в админке: https://ibb.co/F73MXBW
 
     
 ### 2. Добавление вопроса к объекту опроса. 'POST'
 
-https://djang123.herokuapp.com/api/add_question
+Метод: POST
+URL: https://djang123.herokuapp.com/api/add_question
+Права: доступно только при авторизации под админом через админку
 
-По данной ссылке передается Json-объект в формате (указан id первого опроса в админке с именем 'Тестовый опрос 1'):
+Существует три фиксированных значения для ключа "question_type". Можно выбрать один из них: 
+
+#### "TEXT_ANSWER"
+#### "ONE_OPTION_ANSWER"
+#### "MANY_OPTIONS_ANSWER"
+
+
+По данной ссылке передается Json-объект в формате:
 
     {
     "poll_id": 5,
@@ -58,7 +72,11 @@ https://djang123.herokuapp.com/api/add_question
 
 ### 3. Изменение вопроса. 'POST'
 
-https://djang123.herokuapp.com/api/update_question
+Метод: POST
+URL: https://djang123.herokuapp.com/api/update_question
+Права: доступно только при авторизации под админом через админку
+
+Пример передаваемых данных:
 
     {
     "poll_id": 5,
@@ -87,48 +105,149 @@ https://djang123.herokuapp.com/api/update_question
     
 ### 6. Оставить ответ на вопрос (текстовый). 'POST'
 
-https://djang123.herokuapp.com/api/add_answer
+Метод: POST
+URL: https://djang123.herokuapp.com/api/add_answer
+Права: доступно всем
+
+Анонимное использование: проставьте значение в ключе "user_id": 0
+Создание пользователя в системе: проставьте произвольный числовой id (integer). Пример: "user_id": 666
+Авторизация: передайте существующий id пользователя (model UserPoll)
+
+Существует три фиксированных значения для ключа "question_type". Можно выбрать один из них: 
+
+#### "TEXT_ANSWER"
+
+При выборе этого варианта данные передаются в следующем формате:
+    {
+    "poll_id": 125,
+    "question": "вопрос",
+    "answer": true,
+    "question_type": "TEXT_ANSWER",
+    "user_id": 123
+    }
+    
+#### "ONE_OPTION_ANSWER"
+
+При выборе этого варианта данные передаются в следующем формате:
 
     {
-    "poll_id": 5,
-    "question": "Тестовый вопрос",
-    "answer": "Ответ",
-    "question_type": "TEXT_ANSWER",
-    "user_id": "123"
+    "poll_id": 125,
+    "question": "вопрос",
+    "answer": true,
+    "question_type": "ONE_OPTION_ANSWER",
+    "user_id": 123
     }
-user_id - передается произвольный. После запроса, если пользователя нет в базе данных, то он создается с этим айди. Если есть, то ответ привязывается к пользователю.
+
+#### "MANY_OPTIONS_ANSWER"
+
+При выборе этого варианта данные передаются в следующем формате:
+
+    {
+    "poll_id": 125,
+    "question": "вопрос",
+    "question_type": "MANY_OPTIONS_ANSWER",
+    "user_id": 123,
+    "vote_one": true,
+    "vote_three": true,
+    "vote_one_desc": "description 1",
+    "vote_two_desc": "description 2",
+    "vote_three_desc": "description 3"
+    }
+
 
 ### 7. Выдача всех опросов. 'GET'
 
-https://djang123.herokuapp.com/api/get_all_polls
+Метод: GET
+URL: https://djang123.herokuapp.com/api/get_all_polls
+Права: доступно всем
+
 
 Ответ выглядит так:
+
+        {
+        "poll": {
+            "id": 115,
+            "name": "Тестовый опрос 1",
+            "date_starts": "2021-01-21",
+            "date_ends": "2021-01-22",
+            "description": "тут описание",
+            "owner": null
+        },
+        "questions": [
+            {
+                "id": 52,
+                "question_text": "Тестовый вопрос",
+                "question_type": "TEXT_ANSWER",
+                "poll": 115
+            }
+        ]
+    },
+    {
+        "poll": {
+            "id": 116,
+            "name": "Тестовый опрос 1",
+            "date_starts": "2021-01-21",
+            "date_ends": "2021-01-22",
+            "description": "тут описание",
+            "owner": null
+        },
+        "questions": [
+            {
+                "id": 53,
+                "question_text": "Тестовый вопрос",
+                "question_type": "TEXT_ANSWER",
+                "poll": 116
+            }
+        ]
+    },
     
-    [
+### 8. Запрос конкретного опроса по id.
+
+
+Метод: GET
+URL: https://djang123.herokuapp.com/api/get_poll/<int:poll_id>
+Права: доступно всем
+
+Пример ссылки: https://djang123.herokuapp.com/api/get_poll/5
+
+Пример ответа: 
     {
-        "id": 4,
-        "name": "Тестовый опрос 2",
-        "date_starts": "2021-01-21",
-        "date_ends": "2021-01-22",
-        "description": "тут описание"
-    },
-    {
-        "id": 6,
-        "name": "Тестовый опрос 5",
-        "date_starts": "2021-01-21",
-        "date_ends": "2021-01-22",
-        "description": "тут описание"
-    },
-    {
-        "id": 5,
+    "poll": {
+        "id": 126,
         "name": "Тестовый опрос 1",
         "date_starts": "2021-01-21",
         "date_ends": "2021-01-22",
         "description": "тут описание"
-    }
+    },
+    "questions": [
+        {
+            "id": 65,
+            "question_text": "Тестовый вопрос",
+            "question_type": "TEXT_ANSWER",
+            "poll": 126
+        }
     ]
+    }
+    
+### 9. Запрос конкретного вопроса по его id.
 
-### 8. Персональная выдача опросов и ответов пользователя, который запрашивает. 
+Метод: GET
+URL: https://djang123.herokuapp.com/api/get_question/<int:question_id>
+Права: доступно всем
+
+Пример: https://djang123.herokuapp.com/api/get_question/65
+
+Пример ответа:
+
+    {
+    "id": 64,
+    "question_text": "Добавленный вопрос",
+    "question_type": "MANY_OPTIONS_ANSWER",
+    "poll": 125
+    }
+
+
+### 10. Персональная выдача опросов и ответов пользователя, который запрашивает. 
 
 https://djang123.herokuapp.com/api/get_user_polls/<int:user_id>
 
