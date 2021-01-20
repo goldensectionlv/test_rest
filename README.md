@@ -278,4 +278,3 @@
 https://djang123.herokuapp.com/api/get_user_polls/123
 
 
-# К сожалению, это все, что успел. 
