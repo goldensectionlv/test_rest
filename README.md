@@ -158,7 +158,7 @@ http://djang123.herokuapp.com/api2/get_poll/1
 
 Пример передаваемых данных:
 
-{
+    {
     "user_id": 123,
     "poll_id": 1,
     "question_id": 1,
@@ -166,7 +166,7 @@ http://djang123.herokuapp.com/api2/get_poll/1
     "text_answer": "это добавленный ответ",
     "question_type": "TEXT_ANSWER",
     "answer_boolean": true
-}
+    }
 
 
 ### 12. Все опросы, в которых учавствовал пользователь + ответы
