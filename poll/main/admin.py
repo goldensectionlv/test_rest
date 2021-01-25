@@ -33,6 +33,7 @@ class QuestionAdmin(admin.ModelAdmin):
 
 class QuestionInline(admin.TabularInline):
     model = Question
+    readonly_fields = ('id', )
 
 
 class PollAdmin(admin.ModelAdmin):
