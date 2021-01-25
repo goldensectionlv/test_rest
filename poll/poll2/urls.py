@@ -11,5 +11,6 @@ urlpatterns = [
     path('get_poll/<int:poll_id>', get_poll),
     path('get_all_polls', get_all_polls),
     path('add_answer', add_answer),
-    path('add_answer_option', add_answer_option)
+    path('add_answer_option', add_answer_option),
+    path('get_user_polls/<int:user_id>', get_user_polls)
 ]

@@ -26,7 +26,7 @@ class Poll(models.Model):
 
 class Question(models.Model):
     TEXT = 'TEXT_ANSWER'
-    OPTIONS_ANSWER = 'MANY_OPTIONS_ANSWER'
+    OPTIONS_ANSWER = 'OPTIONS_ANSWER'
     QUESTION_TYPE = [
         (TEXT, TEXT),
         (OPTIONS_ANSWER, OPTIONS_ANSWER)
@@ -52,7 +52,7 @@ class AnswerOption(models.Model):
 class UserAnswer(models.Model):
     question = models.ForeignKey(Question, blank=True, null=True, on_delete=models.CASCADE)
     answer_option = models.ForeignKey(AnswerOption, on_delete=models.CASCADE, null=True)
-    custom_user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+    custom_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
     text_answer = models.CharField(max_length=1024, null=True, blank=True)
     answer_boolean = models.BooleanField(null=True, blank=True)

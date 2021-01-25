@@ -15,13 +15,14 @@ class PollSerializer(serializers.ModelSerializer):
 
 
 class AnswerOptionSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = AnswerOption
         fields = ['id', 'option_name']
 
 
 class UserAnswerSerializer(serializers.ModelSerializer):
+    question = serializers.CharField(source='question.question_text')
+
     class Meta:
         model = UserAnswer
-        fields = '__all__'
+        fields = ['id', 'question', 'text_answer', 'answer_option', ]

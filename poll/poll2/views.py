@@ -327,7 +327,7 @@ def get_all_polls(request):
 '''Пример данных, отправляемых на бэкенд'''
 # example_add_answer = {
 #     "user_id": 123,
-#     "poll_id": 8,
+#     "poll_id": 10,
 #     "question_id": 13,
 #     "answer_option_id": 13,
 #     "text_answer": "это ответ для текстового поля",
@@ -363,6 +363,9 @@ def add_answer(request):
         response = f'Ошибка в id варианта'
         return Response(response, status=status.HTTP_404_NOT_FOUND)
 
+    if poll_object.id != question_object.poll.id or poll_object.id != answer_option_object.poll.id:
+        return Response('Айди вопроса или ответа не относятся к выбранному опросу')
+
     try:
         if user_id != 0:
             user_object = CustomUser.objects.get(id=user_id)
@@ -381,6 +384,7 @@ def add_answer(request):
                 text_answer=text_answer
             )
         else:
+            print(question_object.poll.id, answer_option_object.poll.id, poll_object.id)
             user_answer = UserAnswer.objects.create(
                 question=question_object,
                 answer_option=answer_option_object,
@@ -413,6 +417,35 @@ def add_answer(request):
         return Response(serializer.data)
 
 
-@api_view(['POST'])
-def get_user_polls(request):
-    pass
+@api_view(['GET'])
+def get_user_polls(request, user_id):
+    try:
+        user = CustomUser.objects.get(id=user_id)
+    except CustomUser.DoesNotExist:
+        return Response(f'Пользователя с id {user_id} не найдено')
+
+    user_answers = UserAnswer.objects.filter(custom_user=user)
+
+    poll_list = []
+
+    for i in range(len(user_answers)):
+        if user_answers[i].poll.id not in poll_list:
+            poll_list.append(user_answers[i].poll)
+
+    final_dict = []
+    for i in range(len(poll_list)):
+        poll = poll_list[i]
+        answers = []
+        poll_serializer = PollSerializer(poll, many=False)
+        for z in range(len(user_answers)):
+            if user_answers[z].poll.id == poll_list[i].id:
+                answers.append(user_answers[z])
+
+        answers_serializer = UserAnswerSerializer(answers, many=True)
+        final_dict.append({
+            'poll': poll_serializer.data,
+            'answers': answers_serializer.data
+        })
+
+
+    return Response(final_dict)
